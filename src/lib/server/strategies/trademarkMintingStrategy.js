@@ -1,7 +1,7 @@
 //@ts-check
 import { createConfiguredUmi } from '../factories/umiFactory.js';
 import { registerWithARIPO } from '../services/aripoService.js';
-import { mintIPNFT } from '../services/metaplexService.js';
+import { mintTrademarkNFT } from '../services/metaplexService.js';
 
 /**
  * @typedef {import('@metaplex-foundation/umi').Keypair} Keypair
@@ -15,10 +15,10 @@ import { mintIPNFT } from '../services/metaplexService.js';
  * @param {IpData} config.ipData - The IP data to register and mint
  * @returns {Promise<{aripoRegistration: string, nftPublicKey: string}>}
  */
-export async function mintAripoNft({ keypair, ipData }) {
+export async function createTrademark({ keypair, ipData }) {
 	const umi = createConfiguredUmi({ keypair });
 	const aripoData = await registerWithARIPO(ipData);
-	const nftPublicKey = await mintIPNFT(umi, aripoData);
+	const nftPublicKey = await mintTrademarkNFT(umi, aripoData);
 
 	return {
 		aripoRegistration: aripoData.registrationNumber,

@@ -3,40 +3,11 @@
 import { create } from '@metaplex-foundation/mpl-core';
 import { base58 } from '@metaplex-foundation/umi/serializers';
 import { generateSigner } from '@metaplex-foundation/umi';
+import { createTrademarkMetadata } from './aripoService';
 /**
  * @typedef {import('@metaplex-foundation/umi').Umi} Umi
  * @typedef {import('./aripoService').AripoRegistration} AripoRegistration
  */
-
-/**
- * Creates metadata for the NFT
- * @typedef Object
- * @property {string} name
- * @property {string} description
- * @property {string} image
- * @property {string} external_url
- * @property {Array<any>} attributes
- * @property {any} properties
- * @param {AripoRegistration} aripoData - The ARIPO registration data
- * @returns {Object} The NFT metadata
- */
-function createMetadata(aripoData) {
-	return {
-		name: `${aripoData.name} - ARIPO Registration`,
-		description: `ARIPO Registration for ${aripoData.name}`,
-		image: aripoData.image,
-		external_url: 'https://aripo.org',
-		attributes: [
-			{ trait_type: 'Registration Number', value: aripoData.registrationNumber },
-			{ trait_type: 'Registration Date', value: aripoData.registrationDate },
-			{ trait_type: 'IP Type', value: aripoData.type }
-		],
-		properties: {
-			files: [{ uri: aripoData.image, type: 'image/png' }],
-			category: 'image'
-		}
-	};
-}
 
 /**
  * Mints an NFT representing the IP
@@ -44,8 +15,8 @@ function createMetadata(aripoData) {
  * @param {AripoRegistration} aripoData - The ARIPO registration data
  * @returns {Promise<import('@metaplex-foundation/umi').PublicKey>}
  */
-export async function mintIPNFT(umi, aripoData) {
-	const metadata = createMetadata(aripoData);
+export async function mintTrademarkNFT(umi, aripoData) {
+	const metadata = createTrademarkMetadata(aripoData);
 	console.log('Uploading Metadata...');
 	const metadataUri = await umi.uploader.uploadJson(metadata);
 

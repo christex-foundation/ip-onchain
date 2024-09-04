@@ -29,3 +29,36 @@ export async function registerWithARIPO(ipData) {
 		...ipData
 	};
 }
+
+/**
+ * @typedef {import('@metaplex-foundation/umi').Umi} Umi
+ */
+/**
+ * Creates metadata for the NFT
+ * @typedef Object
+ * @property {string} name
+ * @property {string} description
+ * @property {string} image
+ * @property {string} external_url
+ * @property {Array<any>} attributes
+ * @property {any} properties
+ * @param {AripoRegistration} aripoData - The ARIPO registration data
+ * @returns {Object} The NFT metadata
+ */
+export function createTrademarkMetadata(aripoData) {
+	return {
+		name: `${aripoData.name} - ARIPO Registration`,
+		description: `ARIPO Registration for ${aripoData.name}`,
+		image: aripoData.image,
+		external_url: 'https://aripo.org',
+		attributes: [
+			{ trait_type: 'Registration Number', value: aripoData.registrationNumber },
+			{ trait_type: 'Registration Date', value: aripoData.registrationDate },
+			{ trait_type: 'IP Type', value: aripoData.type }
+		],
+		properties: {
+			files: [{ uri: aripoData.image, type: 'image/png' }],
+			category: 'image'
+		}
+	};
+}
