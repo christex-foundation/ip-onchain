@@ -1,38 +1,63 @@
-# create-svelte
+# IP OnChain
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+A decentralized platform for managing trademarks and copyrights on the Solana blockchain using Metaplex Core SDK.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Mint and manage IP assets (trademarks and copyrights) as NFTs
+- Integrate with global regulatory bodies (WIPO, ARIPO) for verification and filing
+- Automated royalty distribution using Metaplex's plugin system
+- Transfer ownership and update metadata of IP assets
+- Report infringements and manage disputes
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Getting Started
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+1. Clone the repository:
 
-## Developing
+   ```bash
+   git clone https://github.com/christex-foundation/ip-onchain.git
+   cd ip-onchain
+   ```
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+2. Install dependencies:
 
-```bash
-npm run dev
+   ```bash
+   npm install
+   ```
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+3. Set up environment variables:
 
-## Building
+   ```bash
+   cp .env.example .env
+   # Edit .env with your Solana wallet and API keys
+   ```
 
-To create a production version of your app:
+4. Run the development server:
 
-```bash
-npm run build
-```
+   ```bash
+   npm run dev
+   ```
 
-You can preview the production build with `npm run preview`.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## API Endpoints
+
+- `POST /trademarks` or `POST /copyrights`: Create a new IP asset
+- `GET /trademarks/{asset_id}` or `GET /copyrights/{asset_id}`: Fetch IP asset metadata
+- `PUT /trademarks/{asset_id}` or `PUT /copyrights/{asset_id}`: Update IP asset
+- `POST /trademarks/{asset_id}/transfer` or `POST /copyrights/{asset_id}/transfer`: Transfer ownership
+- `POST /trademarks/{asset_id}/renew`: Renew trademark
+- `POST /trademarks/{asset_id}/infringements`: Report infringement
+
+For detailed API documentation, see our [API Docs](./docs/API.md).
+
+## Tech Stack
+
+- Frontend: SvelteKit
+- Blockchain: Solana
+- NFT Standard: Metaplex
+- Storage: Arweave
+
+## Technical Specification
+
+For a detailed overview of the system architecture and implementation details, please refer to our [Technical Specification](./docs/TECH_SPEC.md).
