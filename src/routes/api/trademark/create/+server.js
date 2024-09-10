@@ -1,6 +1,6 @@
 //@ts-check
 import { json } from '@sveltejs/kit';
-import { mintAripoNft } from '$lib/server/strategies/trademarkMintingStrategy';
+import { createTrademark } from '$lib/server/strategies/trademarkMintingStrategy';
 import { KEYPAIR } from '$lib/server/config';
 
 /** @type {import('./$types').RequestHandler} */
@@ -9,7 +9,7 @@ export async function POST({ request }) {
 		const { ipData } = await request.json();
 		const keypair = Uint8Array.from(JSON.parse(KEYPAIR));
 
-		const result = await mintAripoNft({ keypair, ipData });
+		const result = await createTrademark({ keypair, ipData });
 
 		return json({ success: true, ...result });
 	} catch (error) {
