@@ -12,6 +12,9 @@ const config = {
 			dir: '.',
 			privatePrefix: 'PRIVATE_',
 			publicPrefix: 'PUBLIC_'
+		},
+		alias: {
+			'@/*': './src/lib/*'
 		}
 	}
 };
