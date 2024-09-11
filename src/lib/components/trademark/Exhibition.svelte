@@ -25,6 +25,33 @@
 	import { Textarea } from '$lib/components/ui/textarea/index.js';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
+	import { createEventDispatcher } from 'svelte';
+
+	/** @type {string[]} */
+	let imageUrls = ['/images/placeholder.svg', '/images/placeholder.svg', '/images/placeholder.svg'];
+	const dispatch = createEventDispatcher();
+
+	/**
+	 * @param {Event} event
+	 */
+	function handleFileUpload(event) {
+		const input = /** @type {HTMLInputElement} */ (event.target);
+		if (input.files && input.files.length > 0) {
+			Array.from(input.files).forEach((file) => {
+				if (file.type.startsWith('image/')) {
+					const reader = new FileReader();
+					reader.onload = (e) => {
+						const result = /** @type {string} */ (e.target?.result);
+						imageUrls = [result, ...imageUrls.slice(0, 2)];
+						dispatch('imageUpload', { images: imageUrls });
+					};
+					reader.readAsDataURL(file);
+				} else {
+					alert(`File "${file.name}" is not an image file.`);
+				}
+			});
+		}
+	}
 </script>
 
 <header class="bg-background sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b px-4">
@@ -50,7 +77,7 @@
 									alt="Trademark"
 									class="aspect-square w-full rounded-md object-cover"
 									height="300"
-									src="/images/placeholder.svg"
+									src={imageUrls[0]}
 									width="300"
 								/>
 								<div class="grid grid-cols-3 gap-2">
@@ -59,7 +86,7 @@
 											alt="Trademark"
 											class="aspect-square w-full rounded-md object-cover"
 											height="84"
-											src="/images/placeholder.svg"
+											src={imageUrls[1]}
 											width="84"
 										/>
 									</button>
@@ -68,16 +95,23 @@
 											alt="Trademark"
 											class="aspect-square w-full rounded-md object-cover"
 											height="84"
-											src="/images/placeholder.svg"
+											src={imageUrls[2]}
 											width="84"
 										/>
 									</button>
-									<button
-										class="flex aspect-square w-full items-center justify-center rounded-md border border-dashed"
+									<label
+										class="flex aspect-square w-full cursor-pointer items-center justify-center rounded-md border border-dashed"
 									>
+										<input
+											type="file"
+											accept="image/*"
+											multiple
+											class="hidden"
+											on:change={handleFileUpload}
+										/>
 										<Upload class="text-muted-foreground h-4 w-4" />
 										<span class="sr-only">Upload</span>
-									</button>
+									</label>
 								</div>
 							</div>
 						</Card.Content>

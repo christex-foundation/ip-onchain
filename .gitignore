@@ -22,3 +22,4 @@ vite.config.ts.timestamp-*
 
 # Custom
 *wallet*.json
+.cursorrules

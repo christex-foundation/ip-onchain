@@ -1,10 +1,11 @@
-<script>
-	import { writable } from 'svelte/store';
+<script lang="ts">
 	import { cubicInOut } from 'svelte/easing';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { currentStep, completedSteps } from '@/stores/trademarkSteps';
 
 	import { Button } from '$lib/components/ui/button/index.js';
+	import TrademarkStepper from '$lib/components/trademark/TrademarkStepper.svelte';
 	import Exhibition from '$lib/components/trademark/Exhibition.svelte';
 	import Translation from '$lib/components/trademark/Translation.svelte';
 	import Upload from '$lib/components/trademark/Upload.svelte';
@@ -16,9 +17,6 @@
 		{ component: Upload, path: 'upload', title: 'Upload' },
 		{ component: Mark, path: 'mark', title: 'Mark' }
 	];
-
-	const currentStep = writable(0);
-	const completedSteps = writable([]);
 
 	$: currentPath = $page.params.step || steps[0].path;
 	$: CurrentComponent =
@@ -78,42 +76,8 @@
 		</div>
 	</div>
 
+	<!-- Stepper for all screen sizes -->
 	<div class="w-64 border-l border-gray-200 p-4 dark:border-gray-700">
-		<div class="flex flex-col space-y-2">
-			{#each steps as step, index}
-				<button
-					class="flex items-center space-x-2 rounded-lg p-2 text-sm transition-colors {index ===
-					currentStepIndex
-						? 'text-primary'
-						: index < currentStepIndex
-							? 'text-muted-foreground'
-							: 'text-muted-foreground opacity-50'}"
-					on:click={() => goToStep(index)}
-					disabled={index > currentStepIndex}
-				>
-					<div
-						class="flex h-5 w-5 items-center justify-center rounded-full border {index ===
-						currentStepIndex
-							? 'border-primary'
-							: index < currentStepIndex
-								? 'border-muted-foreground'
-								: 'border-muted'}"
-					>
-						{#if $completedSteps.includes(index)}
-							<svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-								<path
-									fill-rule="evenodd"
-									d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-									clip-rule="evenodd"
-								/>
-							</svg>
-						{:else}
-							{index + 1}
-						{/if}
-					</div>
-					<span class={$completedSteps.includes(index) ? 'line-through' : ''}>{step.title}</span>
-				</button>
-			{/each}
-		</div>
+		<TrademarkStepper {steps} {currentStepIndex} {goToStep} />
 	</div>
 </main>
