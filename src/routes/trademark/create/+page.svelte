@@ -72,7 +72,7 @@
 			{/key}
 		</div>
 		<div class="mt-4 flex justify-end">
-			<Button on:click={nextStep}>
+			<Button on:click={nextStep} size="sm">
 				{$currentStep === steps.length - 1 ? 'Finish' : 'Next'}
 			</Button>
 		</div>
