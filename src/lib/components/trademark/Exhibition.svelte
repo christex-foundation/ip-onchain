@@ -7,6 +7,8 @@
 	import Upload from 'lucide-svelte/icons/upload';
 	import CirclePlus from 'lucide-svelte/icons/circle-plus';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
+	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
 
 	import { writable } from 'svelte/store';
 
@@ -49,7 +51,49 @@
 	<h1 class="mb-4 text-2xl font-bold">Upload your mark</h1>
 	<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
 		<div>
-			<Button variant="outline" class="mt-4 w-full">View pre-populated zones</Button>
+			<Card.Root>
+				<Card.Header>
+					<Card.Title>Upload Your Trademark Image</Card.Title>
+				</Card.Header>
+				<Card.Content>
+					<p class="mb-4">
+						This is the first step in registering your trademark. Here, you'll upload a high-quality
+						image of your mark. Our AI will analyze the image to detect colors, composition, and
+						format.
+					</p>
+
+					<h3 class="mb-2 font-semibold">Guidelines:</h3>
+					<ul class="mb-4 list-inside list-disc">
+						<li>Upload a clear, high-resolution image</li>
+						<li>Ensure the image accurately represents your trademark</li>
+						<li>Supported formats: PNG, JPG, SVG (max 5MB)</li>
+					</ul>
+
+					<p class="mb-4">
+						After uploading, you'll see a color palette and mark composition analysis. This
+						information helps ensure your trademark is unique and properly categorized. You can
+						upload up to 5 variations if needed.
+					</p>
+
+					<p class="mb-4">
+						Review the AI-detected information carefully. If anything seems incorrect, you'll have a
+						chance to make adjustments in the next steps.
+					</p>
+				</Card.Content>
+			</Card.Root>
+
+			<Collapsible.Root class="w-full space-y-2">
+				<Collapsible.Trigger asChild let:builder>
+					<Button builders={[builder]} variant="outline" class="mt-4 w-full">
+						View pre-populated zones
+					</Button>
+				</Collapsible.Trigger>
+				<Collapsible.Content class="space-y-2">
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@huntabyte/bits-ui</div>
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@melt-ui/melt-ui</div>
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@sveltejs/svelte</div>
+				</Collapsible.Content>
+			</Collapsible.Root>
 		</div>
 		<div>
 			<Card.Root>

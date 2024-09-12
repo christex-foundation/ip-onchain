@@ -1,90 +1,132 @@
 <script lang="ts">
-	import CirclePlus from 'lucide-svelte/icons/circle-plus';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
-	import { Input } from '$lib/components/ui/input/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
-	import * as Table from '$lib/components/ui/table/index.js';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import { Button } from '$lib/components/ui/button';
+	import { Label } from '$lib/components/ui/label';
+	import { Input } from '$lib/components/ui/input';
+	import { RadioGroup, RadioGroupItem } from '$lib/components/ui/radio-group';
+	import {
+		Select,
+		SelectTrigger,
+		SelectValue,
+		SelectContent,
+		SelectItem
+	} from '$lib/components/ui/select';
+	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
+	import * as Popover from '$lib/components/ui/popover';
+	import { Calendar } from '$lib/components/ui/calendar';
+	import { X, Plus, Eye } from 'lucide-svelte';
+	import CalendarIcon from 'lucide-svelte/icons/calendar';
+	import { DateFormatter, getLocalTimeZone } from '@internationalized/date';
+	import { cn } from '$lib/utils';
+
+	const df = new DateFormatter('en-US', {
+		dateStyle: 'long'
+	});
+
+	let filings = ['123457abcded', '123457abcded', '123457abcded'];
+
+	let value = undefined;
+	let files = ['123457abcded', '123457abcded', '123457abcded'];
+
+	function addFiling() {
+		filings = [...filings, '123457abcded'];
+	}
+
+	function removeFiling(index) {
+		filings = filings.filter((_, i) => i !== index);
+	}
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Stock</Card.Title>
-		<Card.Description>Lipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
-	</Card.Header>
-	<Card.Content>
-		<Table.Root>
-			<Table.Header>
-				<Table.Row>
-					<Table.Head class="w-[100px]">SKU</Table.Head>
-					<Table.Head>Stock</Table.Head>
-					<Table.Head>Price</Table.Head>
-					<Table.Head class="w-[100px]">Size</Table.Head>
-				</Table.Row>
-			</Table.Header>
-			<Table.Body>
-				<Table.Row>
-					<Table.Cell class="font-semibold">GGPC-001</Table.Cell>
-					<Table.Cell>
-						<Label for="stock-1" class="sr-only">Stock</Label>
-						<Input id="stock-1" type="number" value="100" />
-					</Table.Cell>
-					<Table.Cell>
-						<Label for="price-1" class="sr-only">Price</Label>
-						<Input id="price-1" type="number" value="99.99" />
-					</Table.Cell>
-					<Table.Cell>
-						<ToggleGroup.Root type="single" value="s" variant="outline">
-							<ToggleGroup.Item value="s">S</ToggleGroup.Item>
-							<ToggleGroup.Item value="m">M</ToggleGroup.Item>
-							<ToggleGroup.Item value="l">L</ToggleGroup.Item>
-						</ToggleGroup.Root>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row>
-					<Table.Cell class="font-semibold">GGPC-002</Table.Cell>
-					<Table.Cell>
-						<Label for="stock-2" class="sr-only">Stock</Label>
-						<Input id="stock-2" type="number" value="143" />
-					</Table.Cell>
-					<Table.Cell>
-						<Label for="price-2" class="sr-only">Price</Label>
-						<Input id="price-2" type="number" value="99.99" />
-					</Table.Cell>
-					<Table.Cell>
-						<ToggleGroup.Root type="single" value="m" variant="outline">
-							<ToggleGroup.Item value="s">S</ToggleGroup.Item>
-							<ToggleGroup.Item value="m">M</ToggleGroup.Item>
-							<ToggleGroup.Item value="l">L</ToggleGroup.Item>
-						</ToggleGroup.Root>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row>
-					<Table.Cell class="font-semibold">GGPC-003</Table.Cell>
-					<Table.Cell>
-						<Label for="stock-3" class="sr-only">Stock</Label>
-						<Input id="stock-3" type="number" value="32" />
-					</Table.Cell>
-					<Table.Cell>
-						<Label for="price-3" class="sr-only">Stock</Label>
-						<Input id="price-3" type="number" value="99.99" />
-					</Table.Cell>
-					<Table.Cell>
-						<ToggleGroup.Root type="single" value="s" variant="outline">
-							<ToggleGroup.Item value="s">S</ToggleGroup.Item>
-							<ToggleGroup.Item value="m">M</ToggleGroup.Item>
-							<ToggleGroup.Item value="l">L</ToggleGroup.Item>
-						</ToggleGroup.Root>
-					</Table.Cell>
-				</Table.Row>
-			</Table.Body>
-		</Table.Root>
-	</Card.Content>
-	<Card.Footer class="justify-center border-t p-4">
-		<Button size="sm" variant="ghost" class="gap-1">
-			<CirclePlus class="h-3.5 w-3.5" />
-			Add Variant
-		</Button>
-	</Card.Footer>
-</Card.Root>
+<div class="container mx-auto p-4">
+	<h1 class="mb-4 text-2xl font-bold">Upload your mark</h1>
+	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+		<div>
+			<h2 class="mb-4 text-2xl font-semibold">
+				Have you already file for this mark in another country within the last six (6)months?
+			</h2>
+			<RadioGroup>
+				<div class="flex items-center space-x-2">
+					<RadioGroupItem value="yes" id="yes" />
+					<Label for="yes">YES</Label>
+				</div>
+				<div class="flex items-center space-x-2">
+					<RadioGroupItem value="no" id="no" />
+					<Label for="no">NO</Label>
+				</div>
+			</RadioGroup>
+
+			<Collapsible.Root class="w-full space-y-2">
+				<Collapsible.Trigger asChild let:builder>
+					<Button builders={[builder]} variant="outline" class="mt-4 w-full">
+						View pre-populated zones
+					</Button>
+				</Collapsible.Trigger>
+				<Collapsible.Content class="space-y-2">
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@huntabyte/bits-ui</div>
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@melt-ui/melt-ui</div>
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@sveltejs/svelte</div>
+				</Collapsible.Content>
+			</Collapsible.Root>
+		</div>
+
+		<div class="space-y-4">
+			<div>
+				<Label for="country">Country</Label>
+				<Select>
+					<SelectTrigger id="country">
+						<SelectValue placeholder="Choose country" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="us">United States</SelectItem>
+						<SelectItem value="uk">United Kingdom</SelectItem>
+						<!-- Add more countries as needed -->
+					</SelectContent>
+				</Select>
+			</div>
+
+			<div>
+				<Label for="date">Date</Label>
+				<Popover.Root>
+					<Popover.Trigger asChild let:builder>
+						<Button
+							variant="outline"
+							class={cn(
+								'w-full justify-start text-left font-normal',
+								!value && 'text-muted-foreground'
+							)}
+							builders={[builder]}
+						>
+							<CalendarIcon class="mr-2 h-4 w-4" />
+							{value ? df.format(value.toDate(getLocalTimeZone())) : 'MM/DD/YYYY'}
+						</Button>
+					</Popover.Trigger>
+					<Popover.Content class="w-auto p-0">
+						<Calendar bind:value initialFocus />
+					</Popover.Content>
+				</Popover.Root>
+			</div>
+
+			<div>
+				<Label for="application">Application # of earliest filing</Label>
+				<Input id="application" type="text" />
+			</div>
+
+			<p class="text-sm text-gray-500">You can add multiple dates of filing</p>
+
+			<div>
+				<p class="mb-2 text-sm text-gray-600">You can add multiple dates of filing</p>
+				<Button on:click={addFiling}>Add filing +</Button>
+			</div>
+
+			<div class="space-y-2">
+				{#each filings as filing, index}
+					<div class="flex items-center justify-between rounded bg-gray-100 p-2">
+						<span>File #{filing}</span>
+						<Button variant="ghost" size="icon" on:click={() => removeFiling(index)}>
+							<X class="h-4 w-4" />
+						</Button>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</div>
+</div>
