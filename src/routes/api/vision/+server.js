@@ -11,7 +11,44 @@ const openai = new OpenAI({
 export async function POST({ request }) {
 	const { images } = await request.json();
 
-	const messages = [
+	const messages = getMessage(images);
+	const response = await fetchAIResponse(messages);
+
+	console.log('OPEN AI:', response.choices[0].message.content);
+	const parsedResponse = parseAIResponse(response);
+
+	if (parsedResponse.error) {
+		return json({ success: false, error: parsedResponse.error });
+	}
+
+	if (parsedResponse.confidenceLevel < 90) {
+		return json({ success: false, error: 'Confidence level is too low' });
+	}
+
+	return json({ success: true, ...parsedResponse });
+}
+
+/**
+ * @param {any} response
+ */
+function parseAIResponse(response) {
+	const rawJson = response.choices[0].message.content.trim().replace(/^```json\n|\n```$/g, '');
+	const parsedResponse = JSON.parse(rawJson);
+
+	// Convert to camelCase
+	return Object.fromEntries(
+		Object.entries(parsedResponse).map(([key, value]) => [
+			key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()),
+			value
+		])
+	);
+}
+
+/**
+ * @param {string[]} images
+ */
+function getMessage(images) {
+	return [
 		{
 			role: 'user',
 			content: [
@@ -42,30 +79,14 @@ If you detect any of the following, return an error:
 			]
 		}
 	];
+}
 
-	const response = await openai.chat.completions.create({
+/**
+ * @param {any} messages
+ */
+async function fetchAIResponse(messages) {
+	return await openai.chat.completions.create({
 		model: 'gpt-4o',
 		messages
 	});
-
-	console.log('OPEN AI:', response.choices[0].message.content);
-	const rawJson = response.choices[0].message.content.trim().replace(/^```json\n|\n```$/g, '');
-	const parsedResponse = JSON.parse(rawJson);
-
-	if (parsedResponse.error) {
-		return json({ success: false, error: parsedResponse.error });
-	}
-
-	if (parsedResponse.confidenceLevel < 90) {
-		return json({ success: false, error: 'Confidence level is too low' });
-	}
-
-	const camelCaseResponse = Object.fromEntries(
-		Object.entries(parsedResponse).map(([key, value]) => [
-			key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()),
-			value
-		])
-	);
-
-	return json({ success: true, ...camelCaseResponse });
 }
