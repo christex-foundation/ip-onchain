@@ -110,8 +110,6 @@
 				<Input id="application" type="text" />
 			</div>
 
-			<p class="text-sm text-gray-500">You can add multiple dates of filing</p>
-
 			<div>
 				<p class="mb-2 text-sm text-gray-600">You can add multiple dates of filing</p>
 				<Button on:click={addFiling}>Add filing +</Button>
