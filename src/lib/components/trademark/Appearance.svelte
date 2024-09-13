@@ -41,18 +41,9 @@
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 		<div>
 			<h2 class="mb-4 text-2xl font-semibold">
-				Have you already file for this mark in another country within the last six (6)months?
+				Please enter goods and services your trademark will cover. Be as specific as possible.
 			</h2>
-			<RadioGroup>
-				<div class="flex items-center space-x-2">
-					<RadioGroupItem value="yes" id="yes" />
-					<Label for="yes">YES</Label>
-				</div>
-				<div class="flex items-center space-x-2">
-					<RadioGroupItem value="no" id="no" />
-					<Label for="no">NO</Label>
-				</div>
-			</RadioGroup>
+			<p class="mb-4 text-sm text-gray-600">EXAMPLES: "T-SHIRTS, COFFEE, PHOTOS, ARTS, SOFTWARE"</p>
 
 			<Collapsible.Root class="w-full space-y-2">
 				<Collapsible.Trigger asChild let:builder>
@@ -70,49 +61,13 @@
 
 		<div class="space-y-4">
 			<div>
-				<Label for="country">Country</Label>
-				<Select>
-					<SelectTrigger id="country">
-						<SelectValue placeholder="Choose country" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value="us">United States</SelectItem>
-						<SelectItem value="uk">United Kingdom</SelectItem>
-						<!-- Add more countries as needed -->
-					</SelectContent>
-				</Select>
-			</div>
-
-			<div>
-				<Label for="date">Date</Label>
-				<Popover.Root>
-					<Popover.Trigger asChild let:builder>
-						<Button
-							variant="outline"
-							class={cn(
-								'w-full justify-start text-left font-normal',
-								!value && 'text-muted-foreground'
-							)}
-							builders={[builder]}
-						>
-							<CalendarIcon class="mr-2 h-4 w-4" />
-							{value ? df.format(value.toDate(getLocalTimeZone())) : 'MM/DD/YYYY'}
-						</Button>
-					</Popover.Trigger>
-					<Popover.Content class="w-auto p-0">
-						<Calendar bind:value initialFocus />
-					</Popover.Content>
-				</Popover.Root>
-			</div>
-
-			<div>
-				<Label for="application">Application # of earliest filing</Label>
-				<Input id="application" type="text" />
+				<Label for="service">Enter good or service</Label>
+				<Input id="service" type="text" />
 			</div>
 
 			<div>
 				<p class="mb-2 text-sm text-gray-600">You can add multiple dates of filing</p>
-				<Button on:click={addFiling}>Add filing +</Button>
+				<Button on:click={addFiling}>Add item +</Button>
 			</div>
 
 			<div class="space-y-2">

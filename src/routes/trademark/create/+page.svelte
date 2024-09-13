@@ -6,16 +6,14 @@
 
 	import { Button } from '$lib/components/ui/button/index.js';
 	import TrademarkStepper from '$lib/components/trademark/TrademarkStepper.svelte';
-	import Exhibition from '$lib/components/trademark/Exhibition.svelte';
-	import Translation from '$lib/components/trademark/Translation.svelte';
-	import Upload from '$lib/components/trademark/Upload.svelte';
-	import Mark from '$lib/components/trademark/Mark.svelte';
+	import Upload from '@/components/trademark/Upload.svelte';
+	import Filings from '@/components/trademark/PreviousFilings.svelte';
+	import Appearance from '@/components/trademark/Appearance.svelte';
 
 	const steps = [
-		{ component: Exhibition, path: 'exhibition', title: 'Exhibition' },
-		{ component: Translation, path: 'translation', title: 'Translation' },
 		{ component: Upload, path: 'upload', title: 'Upload' },
-		{ component: Mark, path: 'mark', title: 'Mark' }
+		{ component: Filings, path: 'previous-filings', title: 'Previous Filings' },
+		{ component: Appearance, path: 'appearance', title: 'Appearance' }
 	];
 
 	$: currentPath = $page.params.step || steps[0].path;
@@ -57,7 +55,7 @@
 </script>
 
 <main class="flex h-screen overflow-hidden">
-	<div class="flex flex-grow flex-col overflow-hidden p-4">
+	<div class="flex flex-col flex-grow p-4 overflow-hidden">
 		<div class="relative flex-grow overflow-auto">
 			{#key $currentStep}
 				<div
@@ -69,7 +67,7 @@
 				</div>
 			{/key}
 		</div>
-		<div class="mt-4 flex justify-end">
+		<div class="flex justify-end mt-4">
 			<Button on:click={nextStep} size="sm">
 				{$currentStep === steps.length - 1 ? 'Finish' : 'Continue to next step'}
 			</Button>
@@ -77,7 +75,7 @@
 	</div>
 
 	<!-- Stepper for all screen sizes -->
-	<div class="w-64 border-l border-gray-200 p-4 dark:border-gray-700">
+	<div class="w-64 p-4 border-l border-gray-200 dark:border-gray-700">
 		<TrademarkStepper {steps} {currentStepIndex} {goToStep} />
 	</div>
 </main>
