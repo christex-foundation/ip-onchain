@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';

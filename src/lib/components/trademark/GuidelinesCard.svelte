@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import * as Card from '$lib/components/ui/card';
 </script>
 
@@ -13,7 +13,7 @@
 		</p>
 
 		<h3 class="mb-2 font-semibold">Guidelines:</h3>
-		<ul class="mb-4 list-disc list-inside">
+		<ul class="mb-4 list-inside list-disc">
 			<li>Upload a clear, high-resolution image</li>
 			<li>Ensure the image accurately represents your trademark</li>
 			<li>Supported formats: PNG, JPG, SVG (max 5MB)</li>

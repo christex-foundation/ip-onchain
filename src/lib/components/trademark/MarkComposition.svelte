@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import * as Card from '$lib/components/ui/card';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 
@@ -15,9 +15,9 @@
 	<Card.Content>
 		{#if isLoading}
 			<div class="space-y-2">
-				<Skeleton class="w-full h-4" />
-				<Skeleton class="w-full h-4" />
-				<Skeleton class="w-full h-4" />
+				<Skeleton class="h-4 w-full" />
+				<Skeleton class="h-4 w-full" />
+				<Skeleton class="h-4 w-full" />
 			</div>
 		{:else}
 			<div class="space-y-2">

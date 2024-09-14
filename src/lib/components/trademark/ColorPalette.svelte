@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import * as Card from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 	import { Skeleton } from '$lib/components/ui/skeleton';
@@ -14,17 +14,17 @@
 	<Card.Content>
 		{#if isLoading}
 			<div class="grid grid-cols-3 gap-2">
-				<div class="flex items-center justify-between h-8 px-2 rounded-md">
-					<Skeleton class="w-12 h-6" />
-					<Skeleton class="w-6 h-6" />
+				<div class="flex h-8 items-center justify-between rounded-md px-2">
+					<Skeleton class="h-6 w-12" />
+					<Skeleton class="h-6 w-6" />
 				</div>
-				<div class="flex items-center justify-between h-8 px-2 rounded-md">
-					<Skeleton class="w-12 h-6" />
-					<Skeleton class="w-6 h-6" />
+				<div class="flex h-8 items-center justify-between rounded-md px-2">
+					<Skeleton class="h-6 w-12" />
+					<Skeleton class="h-6 w-6" />
 				</div>
-				<div class="flex items-center justify-between h-8 px-2 rounded-md">
-					<Skeleton class="w-12 h-6" />
-					<Skeleton class="w-6 h-6" />
+				<div class="flex h-8 items-center justify-between rounded-md px-2">
+					<Skeleton class="h-6 w-12" />
+					<Skeleton class="h-6 w-6" />
 				</div>
 			</div>
 		{:else}
@@ -32,7 +32,7 @@
 				{#each colors as color}
 					<div class="flex h-8 items-center justify-between rounded-md bg-[{color}] px-2">
 						<span class="text-xs">{color}</span>
-						<Button variant="ghost" size="icon" class="w-6 h-6 p-0">
+						<Button variant="ghost" size="icon" class="h-6 w-6 p-0">
 							<span class="sr-only">Remove color</span>
 							&times;
 						</Button>

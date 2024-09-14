@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
@@ -36,7 +36,7 @@
 	}
 </script>
 
-<div class="container p-4 mx-auto">
+<div class="container mx-auto p-4">
 	<h1 class="mb-4 text-2xl font-bold">Upload your mark</h1>
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 		<div>
@@ -56,14 +56,14 @@
 
 			<Collapsible.Root class="w-full space-y-2">
 				<Collapsible.Trigger asChild let:builder>
-					<Button builders={[builder]} variant="outline" class="w-full mt-4">
+					<Button builders={[builder]} variant="outline" class="mt-4 w-full">
 						View pre-populated zones
 					</Button>
 				</Collapsible.Trigger>
 				<Collapsible.Content class="space-y-2">
-					<div class="px-4 py-3 font-mono text-sm border rounded-md">@huntabyte/bits-ui</div>
-					<div class="px-4 py-3 font-mono text-sm border rounded-md">@melt-ui/melt-ui</div>
-					<div class="px-4 py-3 font-mono text-sm border rounded-md">@sveltejs/svelte</div>
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@huntabyte/bits-ui</div>
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@melt-ui/melt-ui</div>
+					<div class="rounded-md border px-4 py-3 font-mono text-sm">@sveltejs/svelte</div>
 				</Collapsible.Content>
 			</Collapsible.Root>
 		</div>
@@ -95,7 +95,7 @@
 							)}
 							builders={[builder]}
 						>
-							<CalendarIcon class="w-4 h-4 mr-2" />
+							<CalendarIcon class="mr-2 h-4 w-4" />
 							{value ? df.format(value.toDate(getLocalTimeZone())) : 'MM/DD/YYYY'}
 						</Button>
 					</Popover.Trigger>
@@ -117,10 +117,10 @@
 
 			<div class="space-y-2">
 				{#each filings as filing, index}
-					<div class="flex items-center justify-between p-2 bg-gray-100 rounded">
+					<div class="flex items-center justify-between rounded bg-gray-100 p-2">
 						<span>File #{filing}</span>
 						<Button variant="ghost" size="icon" on:click={() => removeFiling(index)}>
-							<X class="w-4 h-4" />
+							<X class="h-4 w-4" />
 						</Button>
 					</div>
 				{/each}

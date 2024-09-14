@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { createEventDispatcher } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { MAX_IMAGES, PLACEHOLDER_IMAGE } from '$lib/constants';
