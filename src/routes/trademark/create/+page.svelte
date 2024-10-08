@@ -55,7 +55,12 @@
 </script>
 
 <main class="flex h-screen overflow-hidden">
-	<div class="flex flex-grow flex-col overflow-hidden p-4">
+	<!-- Stepper for all screen sizes -->
+	<div class="w-64 p-4 border-gray-200 dark:border-gray-700">
+		<TrademarkStepper {steps} {currentStepIndex} {goToStep} />
+	</div>
+
+	<div class="flex flex-col flex-grow p-4 overflow-hidden">
 		<div class="relative flex-grow overflow-auto">
 			{#key $currentStep}
 				<div
@@ -67,15 +72,10 @@
 				</div>
 			{/key}
 		</div>
-		<div class="mt-4 flex justify-end">
+		<div class="flex justify-end mt-4">
 			<Button on:click={nextStep} size="sm">
 				{$currentStep === steps.length - 1 ? 'Finish' : 'Continue to next step'}
 			</Button>
 		</div>
-	</div>
-
-	<!-- Stepper for all screen sizes -->
-	<div class="w-64 border-l border-gray-200 p-4 dark:border-gray-700">
-		<TrademarkStepper {steps} {currentStepIndex} {goToStep} />
 	</div>
 </main>

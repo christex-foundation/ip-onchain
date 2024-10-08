@@ -31,11 +31,11 @@
 	</div>
 {:else}
 	<div transition:fly={{ y: 20, duration: 300 }}>
-		<div class="grid h-screen w-full pl-[53px]">
-			<aside class="inset-y fixed left-0 z-20 flex h-full flex-col border-r">
-				<div class="border-b p-2">
+		<div class="flex w-full h-screen">
+			<aside class="fixed inset-y-0 left-0 z-20 flex flex-col border-r bg-background">
+				<div class="p-2 border-b">
 					<Button variant="outline" size="icon" aria-label="Home">
-						<Triangle class="fill-foreground size-5" />
+						<Triangle class="size-5 fill-foreground" />
 					</Button>
 				</div>
 				<nav class="grid gap-1 p-2">
@@ -44,7 +44,7 @@
 							<Button
 								variant="ghost"
 								size="icon"
-								class="bg-muted rounded-lg"
+								class="rounded-lg bg-muted"
 								aria-label="Trademark"
 								builders={[builder]}
 								href="/trademark/create"
@@ -111,7 +111,7 @@
 						<Tooltip.Content side="right" sideOffset={5}>Settings</Tooltip.Content>
 					</Tooltip.Root>
 				</nav>
-				<nav class="mt-auto grid gap-1 p-2">
+				<nav class="grid gap-1 p-2 mt-auto">
 					<Tooltip.Root>
 						<Tooltip.Trigger asChild let:builder>
 							<Button
@@ -142,10 +142,12 @@
 					</Tooltip.Root>
 				</nav>
 			</aside>
-			<div class="flex flex-col">
-				<!-- main area -->
-				<slot></slot>
-			</div>
+			<main class="ml-[53px] flex-1">
+				<div class="h-full p-6 overflow-auto">
+					<!-- main area -->
+					<slot></slot>
+				</div>
+			</main>
 		</div>
 	</div>
 {/if}
