@@ -143,6 +143,9 @@
 				</nav>
 			</aside>
 			<main class="flex-1">
+				<div class="h-[57px] border-b px-6 pt-3">
+					<h1 class="text-2xl font-bold">File your IP registration</h1>
+				</div>
 				<div class="h-full p-6 overflow-auto bg-gray-100 bg-opacity-40">
 					<!-- main area -->
 					<slot></slot>
