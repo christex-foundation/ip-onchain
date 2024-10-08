@@ -47,7 +47,7 @@
 								class="rounded-lg bg-muted"
 								aria-label="Trademark"
 								builders={[builder]}
-								href="/trademark/create"
+								href="/"
 							>
 								<SquareTerminal class="size-5" />
 							</Button>
@@ -62,6 +62,7 @@
 								class="rounded-lg"
 								aria-label="Models"
 								builders={[builder]}
+								href="/trademark/create"
 							>
 								<Bot class="size-5" />
 							</Button>
