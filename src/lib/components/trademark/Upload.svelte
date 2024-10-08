@@ -65,36 +65,36 @@
 	}
 </script>
 
-<div class="container mx-auto p-4">
-	<h1 class="mb-4 text-2xl font-bold">Upload your mark</h1>
-
+<div class="container p-4 mx-auto">
 	{#if $visionData.error}
 		<Alert.Root variant="destructive" class="mt-4">
-			<CircleAlert class="h-4 w-4" />
+			<CircleAlert class="w-4 h-4" />
 			<Alert.Title>Error</Alert.Title>
 			<Alert.Description>{$visionData.error}</Alert.Description>
 		</Alert.Root>
 	{/if}
 
-	<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-		<div>
-			<GuidelinesCard />
-			<PrePopulatedZones />
-		</div>
-		<div>
-			<ImageUploader imageUrls={$imageUrls} {handleFileUpload} />
+	<div class="pb-6 overflow-hidden border rounded-lg">
+		<div class="grid grid-cols-1 divide-y md:grid-cols-2 md:divide-x md:divide-y-0">
+			<div>
+				<GuidelinesCard />
+				<PrePopulatedZones />
+			</div>
+			<div>
+				<ImageUploader imageUrls={$imageUrls} {handleFileUpload} />
 
-			{#if $isLoading}
-				<ColorPalette isLoading={true} />
-				<MarkComposition isLoading={true} />
-			{:else if $isDataLoaded}
-				<ColorPalette colors={$visionData.dominantColours} />
-				<MarkComposition
-					attributes={$visionData.attributes}
-					confidenceLevel={$visionData.confidenceLevel}
-					words={$visionData.words}
-				/>
-			{/if}
+				{#if $isLoading}
+					<ColorPalette isLoading={true} />
+					<MarkComposition isLoading={true} />
+				{:else if $isDataLoaded}
+					<ColorPalette colors={$visionData.dominantColours} />
+					<MarkComposition
+						attributes={$visionData.attributes}
+						confidenceLevel={$visionData.confidenceLevel}
+						words={$visionData.words}
+					/>
+				{/if}
+			</div>
 		</div>
 	</div>
 </div>

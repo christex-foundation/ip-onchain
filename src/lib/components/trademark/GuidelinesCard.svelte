@@ -2,9 +2,11 @@
 	import * as Card from '$lib/components/ui/card';
 </script>
 
-<Card.Root>
+<Card.Root class="border-none shadow-none">
 	<Card.Header>
-		<Card.Title>Upload Your Trademark Image</Card.Title>
+		<Card.Title>
+			<h1 class="text-2xl font-bold">Upload your mark</h1>
+		</Card.Title>
 	</Card.Header>
 	<Card.Content>
 		<p class="mb-4">
@@ -13,7 +15,7 @@
 		</p>
 
 		<h3 class="mb-2 font-semibold">Guidelines:</h3>
-		<ul class="mb-4 list-inside list-disc">
+		<ul class="mb-4 list-disc list-inside">
 			<li>Upload a clear, high-resolution image</li>
 			<li>Ensure the image accurately represents your trademark</li>
 			<li>Supported formats: PNG, JPG, SVG (max 5MB)</li>
