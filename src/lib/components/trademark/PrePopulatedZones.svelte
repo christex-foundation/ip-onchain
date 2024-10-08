@@ -3,7 +3,7 @@
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
 </script>
 
-<Collapsible.Root class="w-auto ml-6 space-y-2 max-w-fit">
+<Collapsible.Root class="w-auto space-y-2 max-w-fit">
 	<Collapsible.Trigger asChild let:builder>
 		<Button builders={[builder]} variant="outline" class="w-full mt-4">
 			View pre-populated zones

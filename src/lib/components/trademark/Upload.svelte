@@ -78,8 +78,11 @@
 		<div class="grid grid-cols-1 divide-y md:grid-cols-2 md:divide-x md:divide-y-0">
 			<div>
 				<GuidelinesCard />
-				<PrePopulatedZones />
+				<div class="ml-6">
+					<PrePopulatedZones />
+				</div>
 			</div>
+
 			<div>
 				<ImageUploader imageUrls={$imageUrls} {handleFileUpload} />
 
