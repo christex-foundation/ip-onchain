@@ -37,7 +37,7 @@
 						<span class="text-base font-medium">{index + 1}</span>
 					{/if}
 				</div>
-				<span class="ml-2">{step.title}</span>
+				<span class="ml-2 font-semibold uppercase">{step.title}</span>
 			</div>
 		</button>
 

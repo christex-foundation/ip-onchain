@@ -56,7 +56,7 @@
 
 <main class="flex h-screen overflow-hidden">
 	<!-- Stepper for all screen sizes -->
-	<div class="p-4 border-gray-200 w-60 dark:border-gray-700">
+	<div class="w-64 p-4 border-gray-200 dark:border-gray-700">
 		<TrademarkStepper {steps} {currentStepIndex} {goToStep} />
 	</div>
 
