@@ -28,8 +28,23 @@
 	let value = undefined;
 	let files = ['123457abcded', '123457abcded', '123457abcded'];
 
-	function addFiling() {
-		filings = [...filings, '123457abcded'];
+	// New code for handling goods and services
+	let goodsAndServices = [];
+	let newItem = '';
+
+	function addItem() {
+		if (newItem.trim()) {
+			const items = newItem
+				.split(',')
+				.map((item) => item.trim())
+				.filter((item) => item !== '');
+			goodsAndServices = [...goodsAndServices, ...items];
+			newItem = '';
+		}
+	}
+
+	function removeItem(index) {
+		goodsAndServices = goodsAndServices.filter((_, i) => i !== index);
 	}
 
 	function removeFiling(index) {
@@ -51,29 +66,32 @@
 				<PrePopulatedZones />
 			</div>
 
-			<div class="p-6 space-y-4">
+			<div class="p-6">
 				<div>
 					<Label for="service">Enter good or service</Label>
-					<Input id="service" type="text" />
+					<div class="flex gap-2">
+						<Input id="service" type="text" bind:value={newItem} />
+						<Button on:click={addItem}>Add Item</Button>
+					</div>
 				</div>
 
-				<div>
-					<p class="mb-2 text-sm text-gray-600">You can add multiple dates of filing</p>
-					<Button on:click={addFiling}>Add item +</Button>
+				<div class="mt-4">
+					<h3 class="mb-2 text-lg font-semibold">Added Goods and Services:</h3>
+					<ul class="space-y-2">
+						{#each goodsAndServices as item, index}
+							<li class="flex items-center justify-between p-2 bg-gray-100 rounded">
+								<span>{item}</span>
+								<Button variant="ghost" size="sm" on:click={() => removeItem(index)}>
+									<X class="w-4 h-4" />
+								</Button>
+							</li>
+						{/each}
+					</ul>
 				</div>
 
-				<div class="space-y-2">
-					{#each filings as filing, index}
-						<div class="flex items-center justify-between p-2 bg-gray-100 rounded">
-							<span>File #{filing}</span>
-							<Button variant="ghost" size="icon" on:click={() => removeFiling(index)}>
-								<X class="w-4 h-4" />
-							</Button>
-						</div>
-					{/each}
+				<div class="mt-16">
+					<slot></slot>
 				</div>
-
-				<slot></slot>
 			</div>
 		</div>
 	</div>

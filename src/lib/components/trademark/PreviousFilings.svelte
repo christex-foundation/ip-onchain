@@ -58,7 +58,7 @@
 				<PrePopulatedZones />
 			</div>
 
-			<div class="p-6 space-y-4">
+			<div class="p-6">
 				<div>
 					<Label for="country">Country</Label>
 					<Select>
@@ -73,7 +73,7 @@
 					</Select>
 				</div>
 
-				<div>
+				<div class="mt-4">
 					<Label for="date">Date</Label>
 					<Popover.Root>
 						<Popover.Trigger asChild let:builder>
@@ -95,17 +95,17 @@
 					</Popover.Root>
 				</div>
 
-				<div>
+				<!-- <div>
 					<Label for="application">Application # of earliest filing</Label>
 					<Input id="application" type="text" />
-				</div>
+				</div> -->
 
-				<div>
+				<!-- <div>
 					<p class="mb-2 text-sm text-gray-600">You can add multiple dates of filing</p>
 					<Button on:click={addFiling}>Add filing +</Button>
-				</div>
+				</div> -->
 
-				<div class="space-y-2">
+				<!-- <div class="space-y-2">
 					{#each filings as filing, index}
 						<div class="flex items-center justify-between p-2 bg-gray-100 rounded">
 							<span>File #{filing}</span>
@@ -114,9 +114,11 @@
 							</Button>
 						</div>
 					{/each}
-				</div>
+				</div> -->
 
-				<slot></slot>
+				<div class="mt-16">
+					<slot></slot>
+				</div>
 			</div>
 		</div>
 	</div>
