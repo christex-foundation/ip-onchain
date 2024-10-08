@@ -2,31 +2,13 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
-	import { RadioGroup, RadioGroupItem } from '$lib/components/ui/radio-group';
-	import {
-		Select,
-		SelectTrigger,
-		SelectValue,
-		SelectContent,
-		SelectItem
-	} from '$lib/components/ui/select';
-	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
-	import * as Popover from '$lib/components/ui/popover';
-	import { Calendar } from '$lib/components/ui/calendar';
-	import { X, Plus, Eye } from 'lucide-svelte';
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
-	import { DateFormatter, getLocalTimeZone } from '@internationalized/date';
-	import { cn } from '$lib/utils';
+	import { X } from 'lucide-svelte';
+	import { DateFormatter } from '@internationalized/date';
 	import PrePopulatedZones from './PrePopulatedZones.svelte';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
 	});
-
-	let filings = ['123457abcded', '123457abcded', '123457abcded'];
-
-	let value = undefined;
-	let files = ['123457abcded', '123457abcded', '123457abcded'];
 
 	// New code for handling goods and services
 	let goodsAndServices = [];
@@ -45,10 +27,6 @@
 
 	function removeItem(index) {
 		goodsAndServices = goodsAndServices.filter((_, i) => i !== index);
-	}
-
-	function removeFiling(index) {
-		filings = filings.filter((_, i) => i !== index);
 	}
 </script>
 
@@ -76,7 +54,9 @@
 				</div>
 
 				<div class="mt-4">
-					<h3 class="mb-2 text-lg font-semibold">Added Goods and Services:</h3>
+					{#if goodsAndServices.length > 0}
+						<h3 class="mb-2 text-lg font-semibold">Added Goods and Services:</h3>
+					{/if}
 					<ul class="space-y-2">
 						{#each goodsAndServices as item, index}
 							<li class="flex items-center justify-between p-2 bg-gray-100 rounded">
