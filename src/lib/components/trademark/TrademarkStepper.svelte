@@ -6,39 +6,50 @@
 	export let goToStep;
 </script>
 
-<div class="flex flex-col space-y-2">
+<div class="flex flex-col p-4 mt-14">
 	{#each steps as step, index}
 		<button
-			class="flex items-center space-x-2 rounded-lg p-2 text-sm transition-colors {index ===
+			class="flex items-center space-x-2 rounded-lg text-sm transition-colors {index ===
 			currentStepIndex
 				? 'text-primary'
-				: index < currentStepIndex
-					? 'text-muted-foreground'
+				: index < currentStepIndex || $completedSteps.includes(index)
+					? 'text-primary'
 					: 'text-muted-foreground opacity-50'}"
 			on:click={() => goToStep(index)}
 			disabled={index > $currentStep}
 		>
-			<div
-				class="flex h-5 w-5 items-center justify-center rounded-full border {index ===
-				currentStepIndex
-					? 'border-primary'
-					: index < currentStepIndex
-						? 'border-muted-foreground'
-						: 'border-muted'}"
-			>
-				{#if $completedSteps.includes(index)}
-					<svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-						<path
-							fill-rule="evenodd"
-							d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-							clip-rule="evenodd"
-						/>
-					</svg>
-				{:else}
-					{index + 1}
-				{/if}
+			<div class="flex items-center">
+				<div
+					class="flex h-9 w-9 items-center justify-center rounded-full {index <= currentStepIndex ||
+					$completedSteps.includes(index)
+						? 'bg-black text-white'
+						: 'bg-gray-200 text-stone-400'}"
+				>
+					{#if $completedSteps.includes(index)}
+						<svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+							<path
+								fill-rule="evenodd"
+								d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+								clip-rule="evenodd"
+							/>
+						</svg>
+					{:else}
+						<span class="text-base font-medium">{index + 1}</span>
+					{/if}
+				</div>
+				<span class="ml-2">{step.title}</span>
 			</div>
-			<span class={$completedSteps.includes(index) ? 'line-through' : ''}>{step.title}</span>
 		</button>
+
+		{#if index !== steps.length - 1}
+			<div class="flex justify-start">
+				<div
+					class="h-16 {index < currentStepIndex || $completedSteps.includes(index)
+						? 'ml-[17px] w-1 bg-black'
+						: 'ml-[18px] w-0.5 bg-neutral-200'}"
+					role="presentation"
+				></div>
+			</div>
+		{/if}
 	{/each}
 </div>
