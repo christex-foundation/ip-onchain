@@ -32,7 +32,7 @@
 {:else}
 	<div transition:fly={{ y: 20, duration: 300 }}>
 		<div class="flex w-full h-screen">
-			<aside class="fixed inset-y-0 left-0 z-20 flex flex-col border-r bg-background">
+			<aside class="inset-y-0 left-0 z-20 flex flex-col border-r bg-background">
 				<div class="p-2 border-b">
 					<Button variant="outline" size="icon" aria-label="Home">
 						<Triangle class="size-5 fill-foreground" />
@@ -142,8 +142,8 @@
 					</Tooltip.Root>
 				</nav>
 			</aside>
-			<main class="ml-[53px] flex-1">
-				<div class="h-full p-6 overflow-auto">
+			<main class="flex-1">
+				<div class="h-full p-6 overflow-auto bg-gray-100 bg-opacity-40">
 					<!-- main area -->
 					<slot></slot>
 				</div>

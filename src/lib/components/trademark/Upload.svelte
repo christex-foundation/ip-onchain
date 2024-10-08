@@ -65,7 +65,7 @@
 	}
 </script>
 
-<div class="container p-4 mx-auto">
+<div class="container mx-auto">
 	{#if $visionData.error}
 		<Alert.Root variant="destructive" class="mt-4">
 			<CircleAlert class="w-4 h-4" />
@@ -74,7 +74,7 @@
 		</Alert.Root>
 	{/if}
 
-	<div class="pb-6 overflow-hidden border rounded-lg">
+	<div class="pb-6 overflow-hidden bg-white border rounded-lg">
 		<div class="grid grid-cols-1 divide-y md:grid-cols-2 md:divide-x md:divide-y-0">
 			<div>
 				<GuidelinesCard />
@@ -94,6 +94,10 @@
 						words={$visionData.words}
 					/>
 				{/if}
+
+				<div class="p-6">
+					<slot></slot>
+				</div>
 			</div>
 		</div>
 	</div>

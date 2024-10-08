@@ -2,7 +2,9 @@
 	class="flex flex-col items-start justify-between gap-4 overflow-hidden rounded-lg border-b border-solid border-b-slate-500 bg-gradient-to-b from-[rgba(30,30,30,0.90)] to-black px-6 py-4 max-md:pr-5 sm:flex-row"
 >
 	<div class="flex max-w-[80%] flex-col sm:max-w-[70%]">
-		<h2 class="text-2xl leading-none text-white">File your right for a trademark</h2>
+		<h2 class="text-2xl leading-none text-white">
+			<slot name="title"></slot>
+		</h2>
 		<p class="mt-2 text-sm leading-5 text-white">
 			Lorem ipsum dolor sit amet consectetur. Faucibus diam faucibus morbi egestas. Molestie nunc
 			tincidunt lorem praesent aliquet sed. Sed sed dignissim aliquam ipsum facilisis tristique

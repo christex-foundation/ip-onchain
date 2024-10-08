@@ -56,7 +56,7 @@
 
 <main class="flex h-screen overflow-hidden">
 	<!-- Stepper for all screen sizes -->
-	<div class="w-64 p-4 border-gray-200 dark:border-gray-700">
+	<div class="p-4 border-gray-200 w-60 dark:border-gray-700">
 		<TrademarkStepper {steps} {currentStepIndex} {goToStep} />
 	</div>
 
@@ -64,18 +64,18 @@
 		<div class="relative flex-grow overflow-auto">
 			{#key $currentStep}
 				<div
-					class="absolute inset-0"
+					class="inset-0 mt-4"
 					in:smoothTransition={{ duration: 400 }}
 					out:smoothTransition|local={{ duration: 300 }}
 				>
-					<svelte:component this={CurrentComponent} />
+					<svelte:component this={CurrentComponent}>
+						<Button on:click={nextStep} size="sm">
+							{$currentStep === steps.length - 1 ? 'Finish' : 'Continue to next step'}
+						</Button>
+					</svelte:component>
 				</div>
 			{/key}
 		</div>
-		<div class="flex justify-end mt-4">
-			<Button on:click={nextStep} size="sm">
-				{$currentStep === steps.length - 1 ? 'Finish' : 'Continue to next step'}
-			</Button>
-		</div>
+		<div class="flex justify-end mt-4"></div>
 	</div>
 </main>
