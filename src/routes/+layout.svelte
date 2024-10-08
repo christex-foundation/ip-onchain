@@ -45,14 +45,14 @@
 								variant="ghost"
 								size="icon"
 								class="rounded-lg bg-muted"
-								aria-label="Trademark"
+								aria-label="Dashboard"
 								builders={[builder]}
 								href="/"
 							>
 								<SquareTerminal class="size-5" />
 							</Button>
 						</Tooltip.Trigger>
-						<Tooltip.Content side="right" sideOffset={5}>Trademark</Tooltip.Content>
+						<Tooltip.Content side="right" sideOffset={5}>Dashboard</Tooltip.Content>
 					</Tooltip.Root>
 					<Tooltip.Root>
 						<Tooltip.Trigger asChild let:builder>
@@ -60,14 +60,14 @@
 								variant="ghost"
 								size="icon"
 								class="rounded-lg"
-								aria-label="Models"
+								aria-label="Register Trademark"
 								builders={[builder]}
 								href="/trademark/create"
 							>
 								<Bot class="size-5" />
 							</Button>
 						</Tooltip.Trigger>
-						<Tooltip.Content side="right" sideOffset={5}>Models</Tooltip.Content>
+						<Tooltip.Content side="right" sideOffset={5}>Register Trademark</Tooltip.Content>
 					</Tooltip.Root>
 					<Tooltip.Root>
 						<Tooltip.Trigger asChild let:builder>

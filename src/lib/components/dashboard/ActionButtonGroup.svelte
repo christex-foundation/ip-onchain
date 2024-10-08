@@ -1,6 +1,7 @@
 <div class="flex items-center gap-6">
-	<button
+	<a
 		class="my-auto flex min-h-[32px] items-center justify-center gap-2 self-stretch rounded-md bg-black px-3 py-2 font-bold text-white"
+		href="/trademark/create"
 	>
 		<span class="self-stretch my-auto">Register New IP</span>
 		<img
@@ -9,7 +10,7 @@
 			alt=""
 			class="self-stretch object-contain w-4 my-auto aspect-square shrink-0"
 		/>
-	</button>
+	</a>
 	<button
 		class="my-auto flex min-h-[32px] items-center justify-center gap-2 self-stretch rounded-md border border-solid border-black bg-zinc-50 px-3 py-2 text-black"
 	>
