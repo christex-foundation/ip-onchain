@@ -15,6 +15,7 @@
 		appearanceStore,
 		clearTrademarkStores
 	} from '$lib/stores/trademarkStores';
+	import { Alert } from '@/components/ui/alert';
 
 	const steps = [
 		{ component: Upload, path: 'upload', title: 'Upload' },
@@ -118,6 +119,30 @@
 					<img src={image} alt="Uploaded trademark" class="object-cover w-20 h-20 rounded" />
 				{/each}
 			</div>
+
+			{#if $uploadStore.visionData}
+				<h3 class="text-lg font-semibold">Dominant Colours:</h3>
+				<div class="flex gap-2">
+					{#each $uploadStore.visionData.dominantColours || [] as colour}
+						<div class="w-4 h-4 rounded" style="background-color: {colour}" />
+					{/each}
+				</div>
+				<h3 class="text-lg font-semibold">Attributes:</h3>
+				<ul>
+					{#each $uploadStore.visionData.attributes || [] as attribute}
+						<li>{attribute}</li>
+					{/each}
+				</ul>
+				<h3 class="text-lg font-semibold">Confidence Level:</h3>
+				<p>{$uploadStore.visionData.confidenceLevel}</p>
+				<h3 class="text-lg font-semibold">Words:</h3>
+				<ul>
+					{#each $uploadStore.visionData.words || [] as word}
+						<li>{word}</li>
+					{/each}
+				</ul>
+			{/if}
+
 			<h3 class="text-lg font-semibold">Previous Filings:</h3>
 			<p>Filed in another country: {$filingsStore.radioValue || 'Not specified'}</p>
 			{#if $filingsStore.radioValue === 'yes'}

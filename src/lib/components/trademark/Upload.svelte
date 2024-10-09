@@ -11,13 +11,6 @@
 	import CircleAlert from 'lucide-svelte/icons/circle-alert';
 	import { uploadStore } from '$lib/stores/trademarkStores';
 
-	let visionData = writable({
-		dominantColours: [],
-		attributes: [],
-		confidenceLevel: 0,
-		words: [],
-		error: null
-	});
 	let isLoading = writable(false);
 	let isDataLoaded = writable(false);
 
@@ -51,11 +44,11 @@
 				throw new Error(result.error);
 			}
 
-			visionData.set(result);
+			uploadStore.set({ ...$uploadStore, visionData: result });
 			isDataLoaded.set(true);
 		} catch (error) {
 			console.error('Error processing images:', error);
-			visionData.set({ error: error.message });
+			uploadStore.set({ ...$uploadStore, visionData: { error: error.message } });
 		} finally {
 			isLoading.set(false);
 		}
@@ -63,15 +56,15 @@
 </script>
 
 <div class="container mx-auto">
-	{#if $visionData.error}
+	{#if $uploadStore.visionData.error}
 		<Alert.Root variant="destructive" class="mt-4">
-			<CircleAlert class="h-4 w-4" />
+			<CircleAlert class="w-4 h-4" />
 			<Alert.Title>Error</Alert.Title>
-			<Alert.Description>{$visionData.error}</Alert.Description>
+			<Alert.Description>{$uploadStore.visionData.error}</Alert.Description>
 		</Alert.Root>
 	{/if}
 
-	<div class="overflow-hidden rounded-lg border bg-white pb-6">
+	<div class="pb-6 overflow-hidden bg-white border rounded-lg">
 		<div class="grid grid-cols-1 divide-y md:grid-cols-2 md:divide-x md:divide-y-0">
 			<div>
 				<GuidelinesCard />
@@ -87,11 +80,11 @@
 					<ColorPalette isLoading={true} />
 					<MarkComposition isLoading={true} />
 				{:else if $isDataLoaded}
-					<ColorPalette colors={$visionData.dominantColours} />
+					<ColorPalette colors={$uploadStore.visionData.dominantColours} />
 					<MarkComposition
-						attributes={$visionData.attributes}
-						confidenceLevel={$visionData.confidenceLevel}
-						words={$visionData.words}
+						attributes={$uploadStore.visionData.attributes}
+						confidenceLevel={$uploadStore.visionData.confidenceLevel}
+						words={$uploadStore.visionData.words}
 					/>
 				{/if}
 
