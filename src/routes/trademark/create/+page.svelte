@@ -3,12 +3,18 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { currentStep, completedSteps } from '@/stores/trademarkSteps';
-
 	import { Button } from '$lib/components/ui/button/index.js';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import TrademarkStepper from '$lib/components/trademark/TrademarkStepper.svelte';
 	import Upload from '@/components/trademark/Upload.svelte';
 	import Filings from '@/components/trademark/PreviousFilings.svelte';
 	import Appearance from '@/components/trademark/Appearance.svelte';
+	import {
+		uploadStore,
+		filingsStore,
+		appearanceStore,
+		clearStores
+	} from '$lib/stores/trademarkStores';
 
 	const steps = [
 		{ component: Upload, path: 'upload', title: 'Upload' },
@@ -20,6 +26,24 @@
 	$: CurrentComponent =
 		steps.find((step) => step.path === currentPath)?.component || steps[0].component;
 	$: currentStepIndex = steps.findIndex((step) => step.path === currentPath);
+
+	let showDialog = false;
+
+	function handleFinish() {
+		showDialog = true;
+	}
+
+	function handleSubmitApplication() {
+		console.log('Submitting application with data:', {
+			upload: $uploadStore,
+			filings: $filingsStore,
+			appearance: $appearanceStore
+		});
+
+		clearStores();
+		showDialog = false;
+		goto('/');
+	}
 
 	function nextStep() {
 		$completedSteps = [...$completedSteps, $currentStep];
@@ -42,12 +66,9 @@
 			duration,
 			css: (t) => {
 				const eased = cubicInOut(t);
-				const opacity = eased;
-				const yOffset = (1 - eased) * 20; // Subtle 20px slide
-
 				return `
-					opacity: ${opacity};
-					transform: ${existingTransform} translate3d(0, ${yOffset}px, 0);
+					opacity: ${eased};
+					transform: ${existingTransform} translate3d(0, ${(1 - eased) * 20}px, 0);
 				`;
 			}
 		};
@@ -55,7 +76,6 @@
 </script>
 
 <main class="flex h-screen overflow-hidden">
-	<!-- Stepper for all screen sizes -->
 	<div class="w-64 p-4 border-gray-200 dark:border-gray-700">
 		<TrademarkStepper {steps} {currentStepIndex} {goToStep} />
 	</div>
@@ -69,13 +89,50 @@
 					out:smoothTransition|local={{ duration: 300 }}
 				>
 					<svelte:component this={CurrentComponent}>
-						<Button on:click={nextStep} size="sm">
+						<Button
+							on:click={$currentStep === steps.length - 1 ? handleFinish : nextStep}
+							size="sm"
+						>
 							{$currentStep === steps.length - 1 ? 'Finish' : 'Continue to next step'}
 						</Button>
 					</svelte:component>
 				</div>
 			{/key}
 		</div>
-		<div class="flex justify-end mt-4"></div>
 	</div>
 </main>
+
+<Dialog.Root bind:open={showDialog}>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Title>Trademark Application Summary</Dialog.Title>
+			<Dialog.Description>
+				Please review the information you've provided for your trademark application.
+			</Dialog.Description>
+		</Dialog.Header>
+		<div class="grid gap-4 py-4">
+			<h3 class="text-lg font-semibold">Uploaded Images:</h3>
+			<div class="flex gap-2">
+				{#each $uploadStore.images || [] as image}
+					<img src={image} alt="Uploaded trademark" class="object-cover w-20 h-20 rounded" />
+				{/each}
+			</div>
+			<h3 class="text-lg font-semibold">Previous Filings:</h3>
+			<p>Filed in another country: {$filingsStore.radioValue || 'Not specified'}</p>
+			{#if $filingsStore.radioValue === 'yes'}
+				<p>Country: {$filingsStore.country.value || 'Not specified'}</p>
+				<p>Date: {$filingsStore.date || 'Not specified'}</p>
+			{/if}
+			<h3 class="text-lg font-semibold">Goods and Services:</h3>
+			<ul>
+				{#each $appearanceStore.goodsAndServices || [] as item}
+					<li>{item}</li>
+				{/each}
+			</ul>
+		</div>
+		<Dialog.Footer>
+			<Button on:click={() => (showDialog = false)}>Close</Button>
+			<Button variant="default" on:click={handleSubmitApplication}>Submit Application</Button>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>

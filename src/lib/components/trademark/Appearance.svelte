@@ -3,15 +3,9 @@
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
 	import { X } from 'lucide-svelte';
-	import { DateFormatter } from '@internationalized/date';
 	import PrePopulatedZones from './PrePopulatedZones.svelte';
+	import { appearanceStore } from '$lib/stores/trademarkStores';
 
-	const df = new DateFormatter('en-US', {
-		dateStyle: 'long'
-	});
-
-	// New code for handling goods and services
-	let goodsAndServices = [];
 	let newItem = '';
 
 	function addItem() {
@@ -20,18 +14,20 @@
 				.split(',')
 				.map((item) => item.trim())
 				.filter((item) => item !== '');
-			goodsAndServices = [...goodsAndServices, ...items];
+			$appearanceStore.goodsAndServices = [...$appearanceStore.goodsAndServices, ...items];
 			newItem = '';
 		}
 	}
 
 	function removeItem(index) {
-		goodsAndServices = goodsAndServices.filter((_, i) => i !== index);
+		$appearanceStore.goodsAndServices = $appearanceStore.goodsAndServices.filter(
+			(_, i) => i !== index
+		);
 	}
 </script>
 
-<div class="container p-4 mx-auto">
-	<div class="pb-6 overflow-hidden bg-white border rounded-lg">
+<div class="container mx-auto p-4">
+	<div class="overflow-hidden rounded-lg border bg-white pb-6">
 		<div class="grid grid-cols-1 divide-y md:grid-cols-2 md:divide-x md:divide-y-0">
 			<div class="p-6">
 				<h2 class="mb-4 text-2xl font-semibold">
@@ -54,15 +50,15 @@
 				</div>
 
 				<div class="mt-4">
-					{#if goodsAndServices.length > 0}
+					{#if $appearanceStore.goodsAndServices.length > 0}
 						<h3 class="mb-2 text-lg font-semibold">Added Goods and Services:</h3>
 					{/if}
 					<ul class="space-y-2">
-						{#each goodsAndServices as item, index}
-							<li class="flex items-center justify-between p-2 bg-gray-100 rounded">
+						{#each $appearanceStore.goodsAndServices as item, index}
+							<li class="flex items-center justify-between rounded bg-gray-100 p-2">
 								<span>{item}</span>
 								<Button variant="ghost" size="sm" on:click={() => removeItem(index)}>
-									<X class="w-4 h-4" />
+									<X class="h-4 w-4" />
 								</Button>
 							</li>
 						{/each}

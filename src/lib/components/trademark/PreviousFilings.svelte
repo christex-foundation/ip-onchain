@@ -15,16 +15,13 @@
 	import { DateFormatter, getLocalTimeZone } from '@internationalized/date';
 	import { cn } from '$lib/utils';
 	import PrePopulatedZones from './PrePopulatedZones.svelte';
+	import { filingsStore } from '$lib/stores/trademarkStores';
 
 	const df = new DateFormatter('en-US', {
 		dateStyle: 'long'
 	});
 
-	/** @type {import('@internationalized/date').CalendarDate | undefined} */
-	let value;
-
-	/** @type {'yes' | 'no' | undefined} */
-	let radioValue;
+	$: ({ radioValue, country, date } = $filingsStore);
 </script>
 
 <div class="container p-4 mx-auto">
@@ -34,7 +31,7 @@
 				<h2 class="mb-4 text-2xl font-semibold">
 					Have you already filed for this mark in another country within the last six (6) months?
 				</h2>
-				<RadioGroup bind:value={radioValue}>
+				<RadioGroup bind:value={$filingsStore.radioValue}>
 					<div class="flex items-center space-x-2">
 						<RadioGroupItem value="yes" id="yes" />
 						<Label for="yes">YES</Label>
@@ -53,29 +50,13 @@
 					<div class="hide-me">
 						<div>
 							<Label for="country">Country</Label>
-							<Select>
+							<Select bind:selected={$filingsStore.country}>
 								<SelectTrigger id="country">
 									<SelectValue placeholder="Choose country" />
 								</SelectTrigger>
 								<SelectContent>
 									<SelectItem value="us">United States</SelectItem>
 									<SelectItem value="uk">United Kingdom</SelectItem>
-									<SelectItem value="af">Afghanistan</SelectItem>
-									<SelectItem value="al">Albania</SelectItem>
-									<SelectItem value="dz">Algeria</SelectItem>
-									<SelectItem value="as">American Samoa</SelectItem>
-									<SelectItem value="ad">Andorra</SelectItem>
-									<SelectItem value="ao">Angola</SelectItem>
-									<SelectItem value="ai">Anguilla</SelectItem>
-									<SelectItem value="aq">Antarctica</SelectItem>
-									<SelectItem value="ag">Antigua and Barbuda</SelectItem>
-									<SelectItem value="ar">Argentina</SelectItem>
-									<SelectItem value="am">Armenia</SelectItem>
-									<SelectItem value="aw">Aruba</SelectItem>
-									<SelectItem value="au">Australia</SelectItem>
-									<SelectItem value="at">Austria</SelectItem>
-
-									<!-- Add more countries as needed -->
 								</SelectContent>
 							</Select>
 						</div>
@@ -88,16 +69,16 @@
 										variant="outline"
 										class={cn(
 											'w-full justify-start text-left font-normal',
-											!value && 'text-muted-foreground'
+											!date && 'text-muted-foreground'
 										)}
 										builders={[builder]}
 									>
 										<CalendarIcon class="w-4 h-4 mr-2" />
-										{value ? df.format(value.toDate(getLocalTimeZone())) : 'MM/DD/YYYY'}
+										{date ? df.format(date.toDate(getLocalTimeZone())) : 'MM/DD/YYYY'}
 									</Button>
 								</Popover.Trigger>
 								<Popover.Content class="w-auto p-0">
-									<Calendar bind:value initialFocus />
+									<Calendar bind:value={$filingsStore.date} initialFocus />
 								</Popover.Content>
 							</Popover.Root>
 						</div>

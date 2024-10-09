@@ -1,5 +1,4 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { MAX_IMAGES, PLACEHOLDER_IMAGE } from '$lib/constants';
 	import { readFileAsDataURL, sendImagesToVisionEndpoint } from '$lib/utils';
@@ -10,9 +9,7 @@
 	import PrePopulatedZones from './PrePopulatedZones.svelte';
 	import * as Alert from '$lib/components/ui/alert';
 	import CircleAlert from 'lucide-svelte/icons/circle-alert';
-
-	const dispatch = createEventDispatcher();
-	const imageUrls = writable([PLACEHOLDER_IMAGE, PLACEHOLDER_IMAGE, PLACEHOLDER_IMAGE]);
+	import { uploadStore } from '$lib/stores/trademarkStores';
 
 	let visionData = writable({
 		dominantColours: [],
@@ -23,6 +20,10 @@
 	});
 	let isLoading = writable(false);
 	let isDataLoaded = writable(false);
+
+	$: if ($uploadStore.images.length === 0) {
+		$uploadStore.images = [PLACEHOLDER_IMAGE, PLACEHOLDER_IMAGE, PLACEHOLDER_IMAGE];
+	}
 
 	async function handleFileUpload(event) {
 		const input = event.target;
@@ -36,11 +37,7 @@
 
 		const newImages = await Promise.all(imageFiles.slice(0, MAX_IMAGES).map(readFileAsDataURL));
 
-		imageUrls.update((urls) => {
-			const updatedUrls = [...newImages, ...urls].slice(0, MAX_IMAGES);
-			dispatch('imageUpload', { images: updatedUrls });
-			return updatedUrls;
-		});
+		$uploadStore.images = [...newImages, ...$uploadStore.images].slice(0, MAX_IMAGES);
 
 		await processImages(newImages);
 	}
@@ -58,7 +55,7 @@
 			isDataLoaded.set(true);
 		} catch (error) {
 			console.error('Error processing images:', error);
-			visionData.set({ error });
+			visionData.set({ error: error.message });
 		} finally {
 			isLoading.set(false);
 		}
@@ -68,13 +65,13 @@
 <div class="container mx-auto">
 	{#if $visionData.error}
 		<Alert.Root variant="destructive" class="mt-4">
-			<CircleAlert class="w-4 h-4" />
+			<CircleAlert class="h-4 w-4" />
 			<Alert.Title>Error</Alert.Title>
 			<Alert.Description>{$visionData.error}</Alert.Description>
 		</Alert.Root>
 	{/if}
 
-	<div class="pb-6 overflow-hidden bg-white border rounded-lg">
+	<div class="overflow-hidden rounded-lg border bg-white pb-6">
 		<div class="grid grid-cols-1 divide-y md:grid-cols-2 md:divide-x md:divide-y-0">
 			<div>
 				<GuidelinesCard />
@@ -84,7 +81,7 @@
 			</div>
 
 			<div>
-				<ImageUploader imageUrls={$imageUrls} {handleFileUpload} />
+				<ImageUploader imageUrls={$uploadStore.images} {handleFileUpload} />
 
 				{#if $isLoading}
 					<ColorPalette isLoading={true} />
