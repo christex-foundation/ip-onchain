@@ -13,7 +13,7 @@ import { createTrademarkMetadata } from './aripoService';
  * Mints an NFT representing the IP
  * @param {Umi} umi - The Umi instance
  * @param {AripoRegistration} aripoData - The ARIPO registration data
- * @returns {Promise<import('@metaplex-foundation/umi').PublicKey>}
+ * @returns {Promise<{publicKey: import('@metaplex-foundation/umi').PublicKey, redirectUrl: string}>}
  */
 export async function mintTrademarkNFT(umi, aripoData) {
 	const metadata = createTrademarkMetadata(aripoData);
@@ -35,5 +35,8 @@ export async function mintTrademarkNFT(umi, aripoData) {
 	console.log('Transaction:', `https://explorer.solana.com/tx/${signature}?cluster=devnet`);
 	console.log('NFT:', `https://core.metaplex.com/explorer/${nftSigner.publicKey}?env=devnet`);
 
-	return nftSigner.publicKey;
+	return {
+		publicKey: nftSigner.publicKey,
+		redirectUrl: `https://core.metaplex.com/explorer/${nftSigner.publicKey}?env=devnet`
+	};
 }

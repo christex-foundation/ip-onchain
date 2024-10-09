@@ -35,29 +35,48 @@ export async function registerWithARIPO(ipData) {
  */
 /**
  * Creates metadata for the NFT
- * @typedef Object
+ * @typedef {Object} NFTMetadata
  * @property {string} name
  * @property {string} description
  * @property {string} image
  * @property {string} external_url
- * @property {Array<any>} attributes
- * @property {any} properties
- * @param {AripoRegistration} aripoData - The ARIPO registration data
- * @returns {Object} The NFT metadata
+ * @property {Array<{trait_type: string, value: any}>} attributes
+ * @property {Object} properties
+ *
+ * @param {AripoRegistration & {upload: Object, appearance: Object, filings: Object}} aripoData - The ARIPO registration data with additional properties
+ * @returns {NFTMetadata} The NFT metadata
  */
 export function createTrademarkMetadata(aripoData) {
 	return {
 		name: `${aripoData.name} - ARIPO Registration`,
 		description: `ARIPO Registration for ${aripoData.name}`,
-		image: aripoData.image,
+		image: 'https://superteam.fun/_app/immutable/assets/superteam_footer.f45ab4df.svg',
 		external_url: 'https://aripo.org',
 		attributes: [
 			{ trait_type: 'Registration Number', value: aripoData.registrationNumber },
 			{ trait_type: 'Registration Date', value: aripoData.registrationDate },
-			{ trait_type: 'IP Type', value: aripoData.type }
+			{ trait_type: 'IP Type', value: aripoData.type },
+			{
+				trait_type: 'Dominant Colors',
+				value: aripoData.upload.visionData.dominantColours.join(', ')
+			},
+			{ trait_type: 'Vision Attributes', value: aripoData.upload.visionData.attributes.join(', ') },
+			{ trait_type: 'Confidence Level', value: aripoData.upload.visionData.confidenceLevel },
+			{ trait_type: 'Detected Words', value: aripoData.upload.visionData.words.join(', ') },
+			{ trait_type: 'Goods and Services', value: aripoData.appearance.goodsAndServices.join(', ') },
+			{
+				trait_type: 'Has Previous Filing',
+				value: aripoData.filings.radioValue === 'yes' ? 'Yes' : 'No'
+			},
+			{ trait_type: 'Filing Country', value: aripoData.filings.country }
 		],
 		properties: {
-			files: [{ uri: aripoData.image, type: 'image/png' }],
+			files: [
+				{
+					uri: 'https://superteam.fun/_app/immutable/assets/superteam_footer.f45ab4df.svg',
+					type: 'image/svg'
+				}
+			],
 			category: 'image'
 		}
 	};

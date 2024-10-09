@@ -13,15 +13,16 @@ import { mintTrademarkNFT } from '../services/metaplexService.js';
  * @param {Object} config - Configuration object
  * @param {Uint8Array} config.keypair - The keypair to use for minting
  * @param {IpData} config.ipData - The IP data to register and mint
- * @returns {Promise<{aripoRegistration: string, nftPublicKey: string}>}
+ * @returns {Promise<{aripoRegistration: string, nftPublicKey: string, redirectUrl: string}>}
  */
 export async function createTrademark({ keypair, ipData }) {
 	const umi = createConfiguredUmi({ keypair });
 	const aripoData = await registerWithARIPO(ipData);
-	const nftPublicKey = await mintTrademarkNFT(umi, aripoData);
+	const { publicKey: nftPublicKey, redirectUrl } = await mintTrademarkNFT(umi, aripoData);
 
 	return {
 		aripoRegistration: aripoData.registrationNumber,
-		nftPublicKey: nftPublicKey.toString()
+		nftPublicKey: nftPublicKey.toString(),
+		redirectUrl
 	};
 }

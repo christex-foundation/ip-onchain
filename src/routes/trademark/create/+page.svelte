@@ -29,22 +29,54 @@
 	$: currentStepIndex = steps.findIndex((step) => step.path === currentPath);
 
 	let showDialog = false;
+	let submissionError = null;
 
 	function handleFinish() {
 		showDialog = true;
 	}
 
-	function handleSubmitApplication() {
-		console.log('Submitting application with data:', {
-			upload: $uploadStore,
-			filings: $filingsStore,
-			appearance: $appearanceStore
-		});
+	async function handleSubmitApplication() {
+		try {
+			const response = await fetch('/api/trademark/create', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					ipData: {
+						name: 'Trademark Superteam Logo',
+						type: 'Trademark',
+						upload: {
+							images: $uploadStore.images,
+							visionData: $uploadStore.visionData
+						},
+						filings: {
+							hasPreviousFiling: $filingsStore.radioValue === 'yes',
+							country: $filingsStore.country?.label,
+							date: $filingsStore.date
+						},
+						appearance: {
+							goodsAndServices: $appearanceStore.goodsAndServices
+						}
+					}
+				})
+			});
 
-		clearTrademarkStores();
-		clearTrademarkStepsStores();
-		showDialog = false;
-		goto('/');
+			if (!response.ok) {
+				throw new Error('Failed to submit trademark application');
+			}
+
+			const result = await response.json();
+			console.log('Trademark application submitted successfully:', result);
+			window.location = result.redirectUrl;
+
+			clearTrademarkStores();
+			clearTrademarkStepsStores();
+			showDialog = false;
+		} catch (error) {
+			console.error('Error submitting trademark application:', error);
+			submissionError = error.message;
+		}
 	}
 
 	function nextStep() {
@@ -162,3 +194,10 @@
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>
+
+{#if submissionError}
+	<Alert variant="destructive">
+		<Alert.Title>Error</Alert.Title>
+		<Alert.Description>{submissionError}</Alert.Description>
+	</Alert>
+{/if}
