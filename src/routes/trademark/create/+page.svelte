@@ -2,7 +2,7 @@
 	import { cubicInOut } from 'svelte/easing';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { currentStep, completedSteps } from '@/stores/trademarkSteps';
+	import { currentStep, completedSteps, clearTrademarkStepsStores } from '@/stores/trademarkSteps';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import TrademarkStepper from '$lib/components/trademark/TrademarkStepper.svelte';
@@ -13,7 +13,7 @@
 		uploadStore,
 		filingsStore,
 		appearanceStore,
-		clearStores
+		clearTrademarkStores
 	} from '$lib/stores/trademarkStores';
 
 	const steps = [
@@ -40,7 +40,8 @@
 			appearance: $appearanceStore
 		});
 
-		clearStores();
+		clearTrademarkStores();
+		clearTrademarkStepsStores();
 		showDialog = false;
 		goto('/');
 	}

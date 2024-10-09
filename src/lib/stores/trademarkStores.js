@@ -14,7 +14,7 @@ export const appearanceStore = writable({
 	goodsAndServices: []
 });
 
-export function clearStores() {
+export function clearTrademarkStores() {
 	uploadStore.set({ images: [] });
 	filingsStore.set({ radioValue: undefined, country: undefined, date: undefined });
 	appearanceStore.set({ goodsAndServices: [] });
